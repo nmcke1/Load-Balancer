@@ -2,21 +2,20 @@
 
 namespace LoadBalancer.Services
 {
-    internal class TestServer(string address, int port) : IServer
+    internal class TestServer(string address, int port, int weight) : IServer
     {
-        // Properties
-        public string Address { get; } = address;
-        public int Port { get; } = port;
+        public int Weight { get; } = weight;
 
         // IServer Implementations
         public async Task StartUp()
         {
-            Console.WriteLine($"Starting test server at {Address}:{Port}");
+            Console.WriteLine($"Starting test server at {address}:{port}");
             await Task.Delay(1000); // Simulate async operation
         }
 
-        public string toString() {
-            return $"\nAddress: {Address} \t Port: {Port}";
+        public override string ToString()
+        {
+            return $"\nAddress: {address} \t Port: {port} \t Weight: {Weight}";
         }
     }
 }
