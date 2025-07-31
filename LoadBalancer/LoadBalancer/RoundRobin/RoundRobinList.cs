@@ -4,6 +4,7 @@ namespace LoadBalancer.RoundRobin
     internal class RoundRobinList : IRoundRobinList
     {
         private Node? head;
+        private int weightCount = 0;
 
         // Add a new node to the end of the list
         public void Append(IServer server)
@@ -31,6 +32,27 @@ namespace LoadBalancer.RoundRobin
             }
         }
 
+        public IServer NextNode()
+        {
+            if (head != null)
+            {
+                Node current = head!;
+
+                if (weightCount < current.Server.Weight)
+                {
+                    weightCount++;
+                    return current.Server;
+                }
+
+                // Reset the weight count after getting to a new server
+                weightCount = 1;
+                head = current.Next!;
+                return head.Server;
+            }
+
+            throw new ArgumentOutOfRangeException("No Servers Available");
+        }
+
         // Print all nodes in the circular linked list
         public string PrintNodes()
         {
@@ -41,11 +63,12 @@ namespace LoadBalancer.RoundRobin
 
             Node current = head;
             string message = "";
+
             do
             {
-                message += current.Server.toString();
+                message += current.Server.ToString();
                 current = current.Next!;
-            } while (current.next != head);
+            } while (current.Next != head);
 
             message += "\n/(back to head)";
             return message;
