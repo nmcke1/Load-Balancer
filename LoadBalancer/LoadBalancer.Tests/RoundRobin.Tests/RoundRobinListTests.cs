@@ -1,8 +1,7 @@
 ﻿using LoadBalancer.RoundRobin;
 using LoadBalancer.Services;
+namespace LoadBalancer.Tests.RoundRobin.Tests;
 
-namespace LoadBalancer.Tests
-{
     public class RoundRobinListTests
     {
         private TestServer testServer1;
@@ -81,4 +80,4 @@ namespace LoadBalancer.Tests
             #endregion
         }
     }
-}
+

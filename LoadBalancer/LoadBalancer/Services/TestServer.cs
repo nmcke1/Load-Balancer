@@ -4,6 +4,7 @@ namespace LoadBalancer.Services
 {
     internal class TestServer(string address, int port, int weight) : IServer
     {
+        // Properties
         public int Weight { get; } = weight;
 
         // IServer Implementations
