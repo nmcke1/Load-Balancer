@@ -68,9 +68,8 @@ namespace LoadBalancer.RoundRobin
             {
                 message += current.Server.ToString();
                 current = current.Next!;
-            } while (current.Next != head);
+            } while (current != head);
 
-            message += "\n/(back to head)";
             return message;
         }
     }
