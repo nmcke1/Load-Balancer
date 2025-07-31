@@ -40,16 +40,16 @@ namespace LoadBalancer.RoundRobin
 
                 if (weightCount < current.Server.Weight)
                 {
+                    // Increment weight count to continue using the same node
                     weightCount++;
                     return current.Server;
                 }
 
-                // Reset the weight count after getting to a new server
+                // Reset the weight count after exceding the weight for the node
                 weightCount = 1;
                 head = current.Next!;
                 return head.Server;
             }
-
             throw new ArgumentOutOfRangeException("No Servers Available");
         }
 
