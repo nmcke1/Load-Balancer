@@ -28,7 +28,7 @@ namespace LoadBalancer.Tests
             // Act
             var actual = Assert.Throws<ArgumentOutOfRangeException>(() => roundRobinList.NextNode());
             // Assert
-            Assert.That(actual.Message.Contains(expectedMessage));
+            Assert.That(actual.Message, Does.Contain(expectedMessage));
         }
 
         [Test]
@@ -45,9 +45,9 @@ namespace LoadBalancer.Tests
             var secondActual = roundRobinList.NextNode();
             var thirdActual = roundRobinList.NextNode();
             // Assert
-            Assert.That(firstActual.Equals(firstExpected));
-            Assert.That(secondActual.Equals(secondAndThirdExpected));
-            Assert.That(thirdActual.Equals(secondAndThirdExpected));
+            Assert.That(firstActual, Is.EqualTo(firstExpected));
+            Assert.That(secondActual, Is.EqualTo(secondAndThirdExpected));
+            Assert.That(thirdActual, Is.EqualTo(secondAndThirdExpected));
         }
         #endregion
 
@@ -60,7 +60,7 @@ namespace LoadBalancer.Tests
             // Act
             var actual = roundRobinList.PrintNodes();
             // Assert
-            Assert.That(actual.Equals(expected));
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace LoadBalancer.Tests
             // Act
             var actual = roundRobinList.PrintNodes();
             // Assert
-            Assert.That(actual.Equals(expected));
+            Assert.That(actual, Is.EqualTo(expected));
             #endregion
         }
     }
