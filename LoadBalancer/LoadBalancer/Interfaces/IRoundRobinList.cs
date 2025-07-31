@@ -10,6 +10,7 @@ namespace LoadBalancer.Interfaces
     internal interface IRoundRobinList
     {
         void Append(IServer server);
+        IServer NextNode();
         // Can probably be removed later, mostly for testing at the minute
         string PrintNodes();
     }

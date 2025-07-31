@@ -7,5 +7,4 @@ namespace LoadBalancer.RoundRobin
         public IServer Server = server;
         public Node? Next = null;
     }
-
 }
