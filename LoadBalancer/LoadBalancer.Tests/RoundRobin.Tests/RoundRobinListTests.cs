@@ -19,6 +19,7 @@ namespace LoadBalancer.Tests
             testServer3 = new TestServer("127.0.0.3", 1010, 5);
         }
 
+        #region NextNode Tests
         [Test]
         public void TestNextNodeWithEmptyList()
         {
@@ -48,9 +49,11 @@ namespace LoadBalancer.Tests
             Assert.That(secondActual.Equals(secondAndThirdExpected));
             Assert.That(thirdActual.Equals(secondAndThirdExpected));
         }
+        #endregion
 
+        #region PrintNodes Tests
         [Test]
-        public void TestPrintStringWithEmptyList()
+        public void TestPrintNodesWithEmptyList()
         {
             // Arrange
             var expected = "List is empty";
@@ -61,7 +64,7 @@ namespace LoadBalancer.Tests
         }
 
         [Test]
-        public void TestPrintStringWithNonEmptyList()
+        public void TestPrintNodesWithNonEmptyList()
         {
             // Arrange
             roundRobinList.Append(testServer1);
@@ -72,6 +75,7 @@ namespace LoadBalancer.Tests
             var actual = roundRobinList.PrintNodes();
             // Assert
             Assert.That(actual.Equals(expected));
+            #endregion
         }
     }
 }
