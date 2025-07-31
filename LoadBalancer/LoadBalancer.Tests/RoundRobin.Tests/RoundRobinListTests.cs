@@ -15,7 +15,7 @@ namespace LoadBalancer.Tests
         {
             roundRobinList = new RoundRobinList();
             testServer1 = new TestServer("127.0.0.1", 8080, 1);
-            testServer2 = new TestServer("127.0.0.2", 9090, 3);
+            testServer2 = new TestServer("127.0.0.2", 9090, 2);
             testServer3 = new TestServer("127.0.0.3", 1010, 5);
         }
 
@@ -38,16 +38,19 @@ namespace LoadBalancer.Tests
             roundRobinList.Append(testServer1);
             roundRobinList.Append(testServer2);
             roundRobinList.Append(testServer3);
-            var firstExpected = testServer1;
-            var secondAndThirdExpected = testServer2;
-            // Act - Running multiple times to ensure it gets the correct one bearing the weights in mind
-            var firstActual = roundRobinList.NextNode();
-            var secondActual = roundRobinList.NextNode();
-            var thirdActual = roundRobinList.NextNode();
+            var firstExpectedNode = testServer1;
+            var secondAndThirdExpectedNode = testServer2;
+            var fourthExpectedNode = testServer3;
+            // Act - Running multiple times to ensure it gets the correct node bearing the weights in mind
+            var firstActualNode = roundRobinList.NextNode();
+            var secondActualNode = roundRobinList.NextNode();
+            var thirdActualNode = roundRobinList.NextNode();
+            var fourthActualNode = roundRobinList.NextNode();
             // Assert
-            Assert.That(firstActual, Is.EqualTo(firstExpected));
-            Assert.That(secondActual, Is.EqualTo(secondAndThirdExpected));
-            Assert.That(thirdActual, Is.EqualTo(secondAndThirdExpected));
+            Assert.That(firstActualNode, Is.EqualTo(firstExpectedNode));
+            Assert.That(secondActualNode, Is.EqualTo(secondAndThirdExpectedNode));
+            Assert.That(thirdActualNode, Is.EqualTo(secondAndThirdExpectedNode));
+            Assert.That(fourthActualNode, Is.EqualTo(fourthExpectedNode));
         }
         #endregion
 
