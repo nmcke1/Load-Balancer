@@ -1,16 +1,15 @@
 ﻿using LoadBalancer.Services;
-using System.Net;
 namespace LoadBalancer.Tests.Services.Tests;
 
-public class TestServerTests
+public class DummyServerTests
 {
-    private TestServer testServer;
+    private DummyServer testServer;
     private readonly string address = "127.0.0.1";
     private readonly int port = 8080;
     private readonly int weight = 5;
 
     [SetUp]
-    public void Setup() => testServer = new TestServer(address, port, weight);
+    public void Setup() => testServer = new DummyServer(address, port, weight);
 
     [Test]
     public void TestToString()

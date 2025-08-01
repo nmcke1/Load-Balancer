@@ -7,17 +7,14 @@ namespace LoadBalancer
     {
         static void Main(string[] args)
         {
-            TestServer s1 = new TestServer("1", 1, 1);
-            TestServer s2 = new TestServer("2", 2, 2);
-            TestServer s3 = new TestServer("3", 3, 5);
+            DummyServer s1 = new DummyServer("127.0.0.1", 8080, 1);
+            DummyServer s2 = new DummyServer("127.0.0.1", 9090, 1);
 
-
-            RoundRobinList list  = new RoundRobinList();
-            list.Append(s1);
-            list.Append(s2);
-            list.Append(s3);
-
-            Console.WriteLine(list.PrintNodes());
+            s1.StartUp();
+            s2.StartUp();
+            Console.WriteLine("Server running. Press ENTER to clsoe");
+            Console.ReadLine();
+            s1.Stop();
         }
     }
 }

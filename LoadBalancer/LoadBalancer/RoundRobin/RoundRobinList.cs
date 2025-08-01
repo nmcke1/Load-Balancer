@@ -109,7 +109,6 @@ namespace LoadBalancer.RoundRobin
                     return head.Server;
                 }
                 throw new ArgumentOutOfRangeException("No Servers Available");
-
             }
         }
 

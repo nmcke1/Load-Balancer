@@ -18,6 +18,11 @@
         void StartUp();
 
         /// <summary>
+        /// Uses the <see cref="CancellationTokenSource"/> to handle any remaining async actions then closes the listener.
+        /// </summary>
+        void Stop();
+
+        /// <summary>
         /// ToString method for IServer objects
         /// </summary>
         /// <returns> Returns address, port and weight information for the server. </returns>
