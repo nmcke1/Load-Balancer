@@ -1,24 +1,22 @@
 ﻿using LoadBalancer.Services;
-using System.Net;
 namespace LoadBalancer.Tests.Services.Tests;
 
-public class TestServerTests
+public class DummyServerTests
 {
-    private TestServer testServer;
+    private DummyServer dummyServer;
     private readonly string address = "127.0.0.1";
     private readonly int port = 8080;
-    private readonly int weight = 5;
 
     [SetUp]
-    public void Setup() => testServer = new TestServer(address, port, weight);
+    public void Setup() => dummyServer = new DummyServer(address, port);
 
     [Test]
     public void TestToString()
     {
         // Arrange
-        var expectedToString = $"\nAddress: {address} \t Port: {port} \t Weight: {weight}";
+        var expectedToString = $"\nAddress: {address} \t Port: {port}";
         // Act
-        var actualToString = testServer.ToString();
+        var actualToString = dummyServer.ToString();
         // Arrange
         Assert.That(actualToString, Is.EqualTo(expectedToString));
     }

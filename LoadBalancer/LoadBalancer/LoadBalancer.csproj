@@ -14,6 +14,7 @@
 	<ItemGroup>
 	  <PackageReference Include="Moq" Version="4.20.72" />
 	  <PackageReference Include="NUnit" Version="4.3.2" />
+	  <PackageReference Include="RoundRobin" Version="2.3.0" />
 	</ItemGroup>
 
 </Project>

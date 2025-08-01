@@ -2,10 +2,8 @@
 
 namespace LoadBalancer.Services
 {
-    internal class TestServer(string address, int port, int weight) : IServer
+    internal class DummyServer(string address, int port) : IServer
     {
-        // Properties
-        public int Weight { get; } = weight;
 
         // IServer Implementations
         public async Task StartUp()
@@ -16,7 +14,7 @@ namespace LoadBalancer.Services
 
         public override string ToString()
         {
-            return $"\nAddress: {address} \t Port: {port} \t Weight: {Weight}";
+            return $"\nAddress: {address} \t Port: {port}";
         }
     }
 }
