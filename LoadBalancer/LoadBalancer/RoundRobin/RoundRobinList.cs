@@ -39,7 +39,6 @@ namespace LoadBalancer.RoundRobin
         {
             lock (_lock)
             {
-                // Empty list
                 if (head == null)
                     return false;
 
@@ -52,14 +51,15 @@ namespace LoadBalancer.RoundRobin
                     {
                         if (previous == null)
                         {
-                            // Only one node in the list
+                            // Only one node in list
                             if (current.Next == head)
                             {
                                 head = null;
+                                weightCount = 0; // Reset weightCount
                                 return true;
                             }
 
-                            // Find the last node to update its Next pointer
+                            // Find last node to update pointer
                             Node last = head;
                             while (last.Next != head)
                             {
@@ -68,14 +68,15 @@ namespace LoadBalancer.RoundRobin
 
                             head = current.Next!;
                             last.Next = head;
+                            weightCount = 0; // Reset here because head changed
                         }
                         else
                         {
-                            // Sets the previous node to point to the node after the removed node, removes node from chain 
                             previous.Next = current.Next;
                             if (current == head)
                             {
                                 head = current.Next!;
+                                weightCount = 0; // Reset because head changed
                             }
                         }
                         return true;
@@ -83,9 +84,11 @@ namespace LoadBalancer.RoundRobin
                     previous = current;
                     current = current.Next!;
                 } while (current != head);
+
                 return false;
             }
         }
+
 
 
         public IServer NextNode()
