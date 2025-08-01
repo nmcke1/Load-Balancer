@@ -1,5 +1,6 @@
-﻿using LoadBalancer.RoundRobin;
+﻿using LoadBalancer.Interfaces;
 using LoadBalancer.Services;
+using RoundRobin;
 
 namespace LoadBalancer
 {
@@ -7,17 +8,23 @@ namespace LoadBalancer
     {
         static void Main(string[] args)
         {
-            TestServer s1 = new TestServer("1", 1, 1);
-            TestServer s2 = new TestServer("2", 2, 2);
-            TestServer s3 = new TestServer("3", 3, 5);
 
+            DummyServer s1 = new DummyServer("1", 1);
+            DummyServer s2 = new DummyServer("2", 2);
+            DummyServer s3 = new DummyServer("3", 3);
 
-            RoundRobinList list  = new RoundRobinList();
-            list.Append(s1);
-            list.Append(s2);
-            list.Append(s3);
+            int[] weights = [0, 1, 4];
 
-            Console.WriteLine(list.PrintNodes());
+            RoundRobinList<IServer> list = new([s1, s2, s3], weights);
+
+            foreach(int i in weights)
+            {
+                for (int j = 0; j < i+1; j++)
+                {
+                    Console.WriteLine(list.Next().ToString());
+                }
+            }
+
         }
     }
 }
