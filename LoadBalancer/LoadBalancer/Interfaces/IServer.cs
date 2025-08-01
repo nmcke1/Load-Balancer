@@ -1,18 +1,31 @@
-﻿namespace LoadBalancer.Interfaces
+﻿using System.Net;
+
+namespace LoadBalancer.Interfaces
 {
     internal interface IServer
     {
         // Properties
 
+
         /// <summary>
-        /// The 'Weight' for each server, determines how much traffic it should get over other servers
+        /// The IP address of the server.
+        /// </summary>
+        IPAddress Address { get; }
+
+        /// <summary>
+        /// The port the server is runnng on.
+        /// </summary>
+        int Port { get; }
+
+        /// <summary>
+        /// The 'Weight' for each server, determines how much traffic it should get over other servers.
         /// </summary>
         int Weight { get; }
 
         // Functions
 
         /// <summary>
-        /// Starts up a dummy server to receive connections
+        /// Starts up a dummy server to receive connections.
         /// </summary>
         /// <returns></returns>
         void Start();
@@ -23,7 +36,7 @@
         void Stop();
 
         /// <summary>
-        /// ToString method for IServer objects
+        /// ToString method for IServer .
         /// </summary>
         /// <returns> Returns address, port and weight information for the server. </returns>
         string ToString();

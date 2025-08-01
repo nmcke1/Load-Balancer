@@ -8,20 +8,21 @@ namespace LoadBalancer.Services
     internal class DummyServer(string address, int port, int weight) : IServer
     {
         // Properties
-        public int Weight { get; } = weight;
+        public int Port { get; } = port;
+        public IPAddress Address { get; } = IPAddress.Parse(address);
+        public int Weight { get; } = weight; 
 
         private TcpListener listener;
         private CancellationTokenSource cts;
-        private readonly string response = $"Hello from IP: {address} Port: {port}\r\n";
 
         // IServer Implementations
         public void Start()
         {
             cts = new CancellationTokenSource();
-            listener = new TcpListener(IPAddress.Any, port);
+            listener = new TcpListener(Address, Port);
             listener.Start();
 
-            Console.WriteLine($"Dummy server started on port {port}");
+            Console.WriteLine($"Dummy server started on port {Port}");
             Task.Run(() => AcceptClientsAsync(cts.Token));
         }
 
@@ -58,6 +59,7 @@ namespace LoadBalancer.Services
             {
                 try
                 {
+                    var response = $"Hello from IP: {Address.ToString()} Port: {Port}\r\n";
                     NetworkStream stream = client.GetStream();
                     byte[] message = Encoding.UTF8.GetBytes(response);
                     await stream.WriteAsync(message, 0, message.Length);
@@ -72,7 +74,7 @@ namespace LoadBalancer.Services
 
         public override string ToString()
         {
-            return $"\nAddress: {address} \t Port: {port} \t Weight: {Weight}";
+            return $"\nAddress: {Address.ToString()} \t Port: {Port} \t Weight: {Weight}";
         }
     }
 }
