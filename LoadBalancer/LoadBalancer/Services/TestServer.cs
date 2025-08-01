@@ -8,10 +8,9 @@ namespace LoadBalancer.Services
         public int Weight { get; } = weight;
 
         // IServer Implementations
-        public async Task StartUp()
+        public void StartUp()
         {
             Console.WriteLine($"Starting test server at {address}:{port}");
-            await Task.Delay(1000); // Simulate async operation
         }
 
         public override string ToString()

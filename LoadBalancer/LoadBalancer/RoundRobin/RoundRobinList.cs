@@ -3,125 +3,137 @@ namespace LoadBalancer.RoundRobin
 {
     internal class RoundRobinList : IRoundRobinList
     {
+        private readonly object _lock = new();
         private Node? head;
         private int weightCount = 0;
 
-        // Add a new node to the end of the list
         public void AppendList(IServer server)
         {
-            Node newNode = new(server);
-
-            if (head != null)
+            lock (_lock)
             {
-                Node current = head;
+                Node newNode = new(server);
 
-                // Find the last node (node that points to head)
-                while (current!.Next != head)
+                if (head != null)
                 {
-                    current = current.Next!;
-                }
+                    Node current = head;
 
-                current.Next = newNode;
-                newNode.Next = head; // Keep the list circular
-            }
-            else
-            {
-                // If list is empty, new node points to itself
-                head = newNode;
-                newNode.Next = head;
+                    // Find the last node (node that points to head)
+                    while (current!.Next != head)
+                    {
+                        current = current.Next!;
+                    }
+
+                    current.Next = newNode;
+                    newNode.Next = head; // Keep the list circular
+                }
+                else
+                {
+                    // If list is empty, new node points to itself
+                    head = newNode;
+                    newNode.Next = head;
+                }
             }
         }
 
-
         public bool RemoveNode(IServer server)
         {
-            // Empty list
-            if (head == null)
-                return false;
-
-            Node current = head;
-            Node? previous = null;
-
-            do
+            lock (_lock)
             {
-                if (current.Server == server)
+                // Empty list
+                if (head == null)
+                    return false;
+
+                Node current = head;
+                Node? previous = null;
+
+                do
                 {
-                    if (previous == null)
+                    if (current.Server == server)
                     {
-                        // Only one node in the list
-                        if (current.Next == head)
+                        if (previous == null)
                         {
-                            head = null;
-                            return true;
-                        }
+                            // Only one node in the list
+                            if (current.Next == head)
+                            {
+                                head = null;
+                                return true;
+                            }
 
-                        // Find the last node to update its Next pointer
-                        Node last = head;
-                        while (last.Next != head)
-                        {
-                            last = last.Next!;
-                        }
+                            // Find the last node to update its Next pointer
+                            Node last = head;
+                            while (last.Next != head)
+                            {
+                                last = last.Next!;
+                            }
 
-                        head = current.Next!;
-                        last.Next = head;
-                    }
-                    else
-                    { 
-                      // Sets the previous node to point to the node after the removed node, removes node from chain 
-                        previous.Next = current.Next;
-                        if (current == head)
-                        {
                             head = current.Next!;
+                            last.Next = head;
                         }
+                        else
+                        {
+                            // Sets the previous node to point to the node after the removed node, removes node from chain 
+                            previous.Next = current.Next;
+                            if (current == head)
+                            {
+                                head = current.Next!;
+                            }
+                        }
+                        return true;
                     }
-                    return true;
-                }
-                previous = current;
-                current = current.Next!;
-            } while (current != head);
-            return false; 
+                    previous = current;
+                    current = current.Next!;
+                } while (current != head);
+                return false;
+            }
         }
 
 
         public IServer NextNode()
         {
-            if (head != null)
+            lock (_lock)
             {
-                Node current = head!;
-
-                if (weightCount < current.Server.Weight)
+                if (head != null)
                 {
-                    // Increment weight count to continue using the same node
-                    weightCount++;
-                    return current.Server;
-                }
+                    Node current = head!;
 
-                // Reset the weight count after exceding the weight for the node
-                weightCount = 1;
-                head = current.Next!;
-                return head.Server;
+                    if (weightCount < current.Server.Weight)
+                    {
+                        // Increment weight count to continue using the same node
+                        weightCount++;
+                        return current.Server;
+                    }
+
+                    // Reset the weight count after exceding the weight for the node
+                    weightCount = 1;
+                    head = current.Next!;
+                    return head.Server;
+                }
+                throw new ArgumentOutOfRangeException("No Servers Available");
+
             }
-            throw new ArgumentOutOfRangeException("No Servers Available");
         }
 
         // Print all nodes in the circular linked list
-        public string ToString()
+        public override string ToString()
         {
-            if (head == null)
+            lock (_lock)
             {
-                return "List is empty";
+                if (head == null)
+                {
+                    return "List is empty";
+                }
+
+                Node current = head;
+                string message = "";
+
+                do
+                {
+                    message += current.Server.ToString();
+                    current = current.Next!;
+                } while (current != head);
+
+                return message;
             }
-
-            Node current = head;
-            string message = "";
-
-            do
-            {
-                message += current.Server.ToString();
-                current = current.Next!;
-            } while (current != head);
-
-            return message;
         }
     }
 }
