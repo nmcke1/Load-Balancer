@@ -25,29 +25,15 @@ namespace LoadBalancer.Services
             return serverList.NextNode();
         }
 
-        public bool RemoveServer(IServer server)
-        {
-            return serverList.RemoveNode(server);
-        }
+        public void HealthCheck() => throw new NotImplementedException();
 
-        public string PrintServers()
-        {
-            return serverList.ToString();
-        }
+        public void AddServer(IServer server) => serverList.AppendList(server);
 
-        public void Start()
-        {
-            throw new NotImplementedException();
-        }
+        public IServer NextServer() => serverList.NextNode();
 
-        public void Stop()
-        {
-            throw new NotImplementedException();
-        }
+        public bool RemoveServer(IServer server) => serverList.RemoveNode(server);
 
-        public void HealthCheck()
-        {
-            throw new NotImplementedException();
-        }
+        public string PrintServers() => serverList.ToString();
+
     }
 }
