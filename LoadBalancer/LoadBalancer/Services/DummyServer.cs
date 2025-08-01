@@ -15,7 +15,7 @@ namespace LoadBalancer.Services
         private readonly string response = $"Hello from IP: {address} Port: {port}\r\n";
 
         // IServer Implementations
-        public void StartUp()
+        public void Start()
         {
             cts = new CancellationTokenSource();
             listener = new TcpListener(IPAddress.Any, port);

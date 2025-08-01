@@ -15,7 +15,7 @@
         /// Starts up a dummy server to receive connections
         /// </summary>
         /// <returns></returns>
-        void StartUp();
+        void Start();
 
         /// <summary>
         /// Uses the <see cref="CancellationTokenSource"/> to handle any remaining async actions then closes the listener.
