@@ -11,11 +11,12 @@ namespace LoadBalancer.ClientHandlers
             using (client)
             {
                 try
-                {;
-                    NetworkStream stream = client.GetStream();
-                    byte[] message = Encoding.UTF8.GetBytes(response);
-                    await stream.WriteAsync(message);
-                    Console.WriteLine("Sent response to client.");
+                {
+                    using NetworkStream stream = client.GetStream();
+                    using StreamWriter writer = new (stream, Encoding.UTF8);
+
+                    await writer.WriteAsync(response);
+                    await writer.FlushAsync();  
                 }
                 catch (Exception ex)
                 {

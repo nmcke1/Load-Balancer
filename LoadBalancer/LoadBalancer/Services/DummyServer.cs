@@ -1,7 +1,6 @@
 ﻿using LoadBalancer.Interfaces;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 
 namespace LoadBalancer.Services
 {
@@ -28,9 +27,14 @@ namespace LoadBalancer.Services
 
         public void Stop()
         {
-            Console.WriteLine("Stopping server...");
-            cts.Cancel();
-            listener.Stop();
+            if (listener is not null)
+            {
+                Console.WriteLine("Stopping server");
+                cts.Cancel();
+                listener.Stop();
+                return;
+            }
+            Console.WriteLine("Server not active");
         }
 
         private async Task AcceptClientsAsync(CancellationToken token)
@@ -40,9 +44,13 @@ namespace LoadBalancer.Services
                 while (!token.IsCancellationRequested)
                 {
                     TcpClient client = await listener.AcceptTcpClientAsync(token);
-                    var response = $"Hello from IP: {Address.ToString()} Port: {Port}\r\n";
+                    var response = $"Hello from IP: {Address} Port: {Port}\r\n";
                     _ = clientHandler.HandleClientAsync(client, response);
                 }
+            }
+            catch (OperationCanceledException)
+            {
+                Console.WriteLine("Server stopped");
             }
             catch (ObjectDisposedException ex)
             {
@@ -50,13 +58,13 @@ namespace LoadBalancer.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Server error: {ex.Message}");
+               Console.WriteLine($"Server error: {ex.Message}");
             }
         }
 
         public override string ToString()
         {
-            return $"\nAddress: {Address.ToString()} \t Port: {Port} \t Weight: {Weight}";
+            return $"\nAddress: {Address} \t Port: {Port} \t Weight: {Weight}";
         }
     }
 }
