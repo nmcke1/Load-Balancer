@@ -5,18 +5,18 @@ namespace LoadBalancer.Tests.RoundRobin.Tests;
 
 public class RoundRobinListTests
 {
-    private TestServer testServer1;
-    private TestServer testServer2;
-    private TestServer testServer3;
+    private DummyServer dummyServer1;
+    private DummyServer dummyServer2;
+    private DummyServer dummyServer3;
     private RoundRobinList roundRobinList;
 
     [SetUp]
     public void Setup()
     {
         roundRobinList = new RoundRobinList();
-        testServer1 = new TestServer("127.0.0.1", 8080, 1);
-        testServer2 = new TestServer("127.0.0.2", 9090, 2);
-        testServer3 = new TestServer("127.0.0.3", 1010, 5);
+        dummyServer1 = new DummyServer("127.0.0.1", 8080, 1);
+        dummyServer2 = new DummyServer("127.0.0.2", 9090, 2);
+        dummyServer3 = new DummyServer("127.0.0.3", 1010, 5);
     }
 
     #region NextNode Tests
@@ -35,12 +35,12 @@ public class RoundRobinListTests
     public void TestNextNodeWithNonEmptyList()
     {
         // Arrange
-        roundRobinList.AppendList(testServer1);
-        roundRobinList.AppendList(testServer2);
-        roundRobinList.AppendList(testServer3);
-        var firstExpectedNode = testServer1;
-        var secondAndThirdExpectedNode = testServer2;
-        var fourthExpectedNode = testServer3;
+        roundRobinList.AppendList(dummyServer1);
+        roundRobinList.AppendList(dummyServer2);
+        roundRobinList.AppendList(dummyServer3);
+        var firstExpectedNode = dummyServer1;
+        var secondAndThirdExpectedNode = dummyServer2;
+        var fourthExpectedNode = dummyServer3;
         // Act - Running multiple times to ensure it gets the correct node bearing the weights in mind
         var firstActualNode = roundRobinList.NextNode();
         var secondActualNode = roundRobinList.NextNode();
@@ -57,10 +57,10 @@ public class RoundRobinListTests
     public void TestNextNodeConcurrentAccess()
     {
         // Arrange
-        roundRobinList.AppendList(testServer1);
-        roundRobinList.AppendList(testServer2);
-        roundRobinList.AppendList(testServer3);
-        var expectedServers = new[] { testServer1, testServer2, testServer3 };
+        roundRobinList.AppendList(dummyServer1);
+        roundRobinList.AppendList(dummyServer2);
+        roundRobinList.AppendList(dummyServer3);
+        var expectedServers = new[] { dummyServer1, dummyServer2, dummyServer3 };
         var concurrentCalls = 100;
         var tasks = new List<Task<IServer>>();
         // Act
@@ -96,10 +96,10 @@ public class RoundRobinListTests
     public void TestPrintNodesWithNonEmptyList()
     {
         // Arrange
-        roundRobinList.AppendList(testServer1);
-        roundRobinList.AppendList(testServer2);
-        roundRobinList.AppendList(testServer3);
-        var expected = $"{testServer1}{testServer2}{testServer3}";
+        roundRobinList.AppendList(dummyServer1);
+        roundRobinList.AppendList(dummyServer2);
+        roundRobinList.AppendList(dummyServer3);
+        var expected = $"{dummyServer1}{dummyServer2}{dummyServer3}";
         // Act
         var actual = roundRobinList.ToString();
         // Assert
@@ -110,10 +110,10 @@ public class RoundRobinListTests
     public void TestRemoveNodeConcurrentAccess()
     {
         // Arrange
-        roundRobinList.AppendList(testServer1);
-        roundRobinList.AppendList(testServer2);
-        roundRobinList.AppendList(testServer3);
-        var expectedToString = testServer1.ToString() + testServer2.ToString() + testServer3.ToString();
+        roundRobinList.AppendList(dummyServer1);
+        roundRobinList.AppendList(dummyServer2);
+        roundRobinList.AppendList(dummyServer3);
+        var expectedToString = dummyServer1.ToString() + dummyServer2.ToString() + dummyServer3.ToString();
         int concurrentCalls = 100;
         var tasks = new List<Task<String>>();
         // Act
@@ -139,7 +139,7 @@ public class RoundRobinListTests
         // Arrange
         var expected = false;
         // Act
-        var actual = roundRobinList.RemoveNode(testServer1);
+        var actual = roundRobinList.RemoveNode(dummyServer1);
         // Assert
         Assert.That(actual, Is.EqualTo(expected));
     }
@@ -148,11 +148,11 @@ public class RoundRobinListTests
     public void TestRemoveNodeWithItemNotInList()
     {
         // Arrange
-        roundRobinList.AppendList(testServer1);
-        roundRobinList.AppendList(testServer2);
+        roundRobinList.AppendList(dummyServer1);
+        roundRobinList.AppendList(dummyServer2);
         var expected = false;
         // Act
-        var actual = roundRobinList.RemoveNode(testServer3);
+        var actual = roundRobinList.RemoveNode(dummyServer3);
         // Assert
         Assert.That(actual, Is.EqualTo(expected));
     }
@@ -161,11 +161,11 @@ public class RoundRobinListTests
     public void TestRemoveNodeWithOneItemInList()
     {
         // Arrange
-        roundRobinList.AppendList(testServer1);
+        roundRobinList.AppendList(dummyServer1);
         var expected = true;
         var expectedMessage = "List is empty";
         // Act
-        var actual = roundRobinList.RemoveNode(testServer1);
+        var actual = roundRobinList.RemoveNode(dummyServer1);
         // Assert
         Assert.That(actual, Is.EqualTo(expected));
         Assert.That(roundRobinList.ToString, Is.EqualTo(expectedMessage));
@@ -175,13 +175,13 @@ public class RoundRobinListTests
     public void TestRemoveNodeWhenNodeIsInTheMiddle()
     {
         // Arrange
-        roundRobinList.AppendList(testServer1);
-        roundRobinList.AppendList(testServer2);
-        roundRobinList.AppendList(testServer3);
+        roundRobinList.AppendList(dummyServer1);
+        roundRobinList.AppendList(dummyServer2);
+        roundRobinList.AppendList(dummyServer3);
         var expected = true;
-        var expectedMessage = testServer1.ToString() + testServer3.ToString();
+        var expectedMessage = dummyServer1.ToString() + dummyServer3.ToString();
         // Act
-        var actual = roundRobinList.RemoveNode(testServer2);
+        var actual = roundRobinList.RemoveNode(dummyServer2);
         // Assert
         Assert.That(actual, Is.EqualTo(expected));
         Assert.That(roundRobinList.ToString, Is.EqualTo(expectedMessage));
@@ -191,13 +191,13 @@ public class RoundRobinListTests
     public void TestRemoveNodeWhenNodeIsAtTheEnd()
     {
         // Arrange
-        roundRobinList.AppendList(testServer1);
-        roundRobinList.AppendList(testServer2);
-        roundRobinList.AppendList(testServer3);
+        roundRobinList.AppendList(dummyServer1);
+        roundRobinList.AppendList(dummyServer2);
+        roundRobinList.AppendList(dummyServer3);
         var expected = true;
-        var expectedMessage = testServer1.ToString() + testServer2.ToString();
+        var expectedMessage = dummyServer1.ToString() + dummyServer2.ToString();
         // Act
-        var actual = roundRobinList.RemoveNode(testServer3);
+        var actual = roundRobinList.RemoveNode(dummyServer3);
         // Assert
         Assert.That(actual, Is.EqualTo(expected));
         Assert.That(roundRobinList.ToString, Is.EqualTo(expectedMessage));
@@ -207,14 +207,14 @@ public class RoundRobinListTests
     public void TestPrintNodeConcurrentAccess()
     {
         // Arrange
-        roundRobinList.AppendList(testServer1);
-        roundRobinList.AppendList(testServer2);
-        var expectedToString = testServer1.ToString() + testServer2.ToString();
+        roundRobinList.AppendList(dummyServer1);
+        roundRobinList.AppendList(dummyServer2);
+        var expectedToString = dummyServer1.ToString() + dummyServer2.ToString();
         var concurrentCalls = 100;
 
         for (int i = 0; i < concurrentCalls; i++)
         {
-            roundRobinList.AppendList(testServer3);
+            roundRobinList.AppendList(dummyServer3);
         }
         var tasks = new List<Task<bool>>();
         // Act
@@ -222,7 +222,7 @@ public class RoundRobinListTests
         {
             tasks.Add(Task.Run(() =>
             {
-                return roundRobinList.RemoveNode(testServer3);
+                return roundRobinList.RemoveNode(dummyServer3);
             }));
         }
         Task.WaitAll(tasks.ToArray());
