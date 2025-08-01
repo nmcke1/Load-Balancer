@@ -6,7 +6,6 @@ namespace LoadBalancer.RoundRobin
         private Node? head;
         private int weightCount = 0;
 
-        // Add a new node to the end of the list
         public void AppendList(IServer server)
         {
             Node newNode = new(server);
@@ -31,7 +30,6 @@ namespace LoadBalancer.RoundRobin
                 newNode.Next = head;
             }
         }
-
 
         public bool RemoveNode(IServer server)
         {
@@ -105,7 +103,7 @@ namespace LoadBalancer.RoundRobin
         }
 
         // Print all nodes in the circular linked list
-        public string ToString()
+        public override string ToString()
         {
             if (head == null)
             {
