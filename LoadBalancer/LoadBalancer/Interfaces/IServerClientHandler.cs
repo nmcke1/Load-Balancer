@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace LoadBalancer.Interfaces
 {
-    internal interface IClientHandler
+    internal interface IServerClientHandler
     {
         /// <summary>
-        /// Handles communication with a connected TCP client.
+        /// Handles communication with a TCP client connected to a server.
         /// </summary>
         /// <param name="client"> The connected <see cref="TcpClient"/> to handle. </param>
         /// <returns> A task representing the asynchronous operation. </returns>
-        Task HandleAsync(TcpClient client);
+        Task HandleClientAsync(TcpClient client, string response);
     }
 }

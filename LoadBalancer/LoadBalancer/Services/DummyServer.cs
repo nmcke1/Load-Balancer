@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LoadBalancer.Services
 {
-    internal class DummyServer(string address, int port, int weight) : IServer
+    internal class DummyServer(string address, int port, int weight, IServerClientHandler clientHandler) : IServer
     {
         // Properties
         public int Port { get; } = port;
@@ -40,7 +40,8 @@ namespace LoadBalancer.Services
                 while (!token.IsCancellationRequested)
                 {
                     TcpClient client = await listener.AcceptTcpClientAsync(token);
-                    _ = Task.Run(() => HandleClientAsync(client), token);
+                    var response = $"Hello from IP: {Address.ToString()} Port: {Port}\r\n";
+                    _ = clientHandler.HandleClientAsync(client, response);
                 }
             }
             catch (ObjectDisposedException ex)
@@ -50,25 +51,6 @@ namespace LoadBalancer.Services
             catch (Exception ex)
             {
                 Console.WriteLine($"Server error: {ex.Message}");
-            }
-        }
-
-        private async Task HandleClientAsync(TcpClient client)
-        {
-            using (client)
-            {
-                try
-                {
-                    var response = $"Hello from IP: {Address.ToString()} Port: {Port}\r\n";
-                    NetworkStream stream = client.GetStream();
-                    byte[] message = Encoding.UTF8.GetBytes(response);
-                    await stream.WriteAsync(message, 0, message.Length);
-                    Console.WriteLine("Sent response to client.");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error handling client: {ex.Message}");
-                }
             }
         }
 
