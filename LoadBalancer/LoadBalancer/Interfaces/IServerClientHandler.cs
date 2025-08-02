@@ -2,6 +2,7 @@
 
 namespace LoadBalancer.Interfaces
 {
+
     public interface IServerClientHandler
     {
         /// <summary>
