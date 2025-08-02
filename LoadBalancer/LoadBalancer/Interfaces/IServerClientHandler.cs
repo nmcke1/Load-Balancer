@@ -2,7 +2,9 @@
 
 namespace LoadBalancer.Interfaces
 {
-
+    /// <summary>
+    /// Represents a client handler for a server that returns a response to the client.
+    /// </summary>
     public interface IServerClientHandler
     {
         /// <summary>
