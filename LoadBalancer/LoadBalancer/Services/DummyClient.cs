@@ -10,7 +10,7 @@ namespace LoadBalancer.Services
     /// </summary>
     /// <param name="address">IP address the client connects to.</param>
     /// <param name="port">Port the client connects to.</param>
-    public class DummyClient(string address, int port) : IClient
+    internal class DummyClient(string address, int port) : IClient
     {
         public string ConnectAndReadResponse()
         {
