@@ -2,7 +2,7 @@
 
 namespace LoadBalancer.Interfaces
 {
-    internal interface IServer
+    public interface IServer
     {
         // Properties
 

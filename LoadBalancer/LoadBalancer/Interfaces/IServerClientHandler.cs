@@ -2,7 +2,7 @@
 
 namespace LoadBalancer.Interfaces
 {
-    internal interface IServerClientHandler
+    public interface IServerClientHandler
     {
         /// <summary>
         /// Handles communication with a TCP client connected to a server.

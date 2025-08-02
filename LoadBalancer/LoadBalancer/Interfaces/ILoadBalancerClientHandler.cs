@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LoadBalancer.Interfaces
 {
-    internal interface ILoadBalancerClientHandler
+    public interface ILoadBalancerClientHandler
     {
         /// <summary>
         /// Handles communication with a TCP client connected to the load balancer
