@@ -5,6 +5,9 @@ using System.Net.Sockets;
 
 namespace LoadBalancer.Services
 {
+    /// <summary>
+    /// Service which provides the load balancer functionality
+    /// </summary>
     internal class LoadBalancerService : ILoadBalancer
     {
         private readonly int  port;
@@ -52,7 +55,7 @@ namespace LoadBalancer.Services
         {
             while (!token.IsCancellationRequested)
             {
-                System.Net.Sockets.TcpClient client = await listener.AcceptTcpClientAsync(token);
+                TcpClient client = await listener.AcceptTcpClientAsync(token);
                 var server = NextServer();
 
                 try

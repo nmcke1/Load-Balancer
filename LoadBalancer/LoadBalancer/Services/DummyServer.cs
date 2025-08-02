@@ -4,6 +4,13 @@ using System.Net.Sockets;
 
 namespace LoadBalancer.Services
 {
+    /// <summary>
+    /// Dummy server used to test that the load balancer can correctly redistribute traffic
+    /// </summary>
+    /// <param name="address">IP address to run the server on.</param>
+    /// <param name="port">Port to run the server on.</param>
+    /// <param name="weight">Weight of the server showing how much more traffic it can accept than other servers.</param>
+    /// <param name="clientHandler">Client handler to handle clients connecting to the server</param>
     internal class DummyServer(string address, int port, int weight, IServerClientHandler clientHandler) : IServer
     {
         // Properties
