@@ -5,7 +5,12 @@ using System.Net.Sockets;
 
 namespace LoadBalancer.Services
 {
-    public class DummyClient(string address, int port) : IClient
+    /// <summary>
+    /// A dummy client used for testing the load balancer
+    /// </summary>
+    /// <param name="address">IP address the client connects to.</param>
+    /// <param name="port">Port the client connects to.</param>
+    internal class DummyClient(string address, int port) : IClient
     {
         public string ConnectAndReadResponse()
         {

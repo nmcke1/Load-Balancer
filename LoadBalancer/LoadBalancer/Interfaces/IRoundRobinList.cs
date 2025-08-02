@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace LoadBalancer.Interfaces
 {
+    /// <summary>
+    /// Represents a list that stores servers using a weight round robin algorithm.
+    /// </summary>
     internal interface IRoundRobinList
     {
         /// <summary>

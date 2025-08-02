@@ -1,6 +1,9 @@
 ﻿using LoadBalancer.Interfaces;
 namespace LoadBalancer.RoundRobin
 {
+    /// <summary>
+    /// List that uses weighted round robin algorithm to return Servers in a cyclical manner.
+    /// </summary>
     internal class RoundRobinList : IRoundRobinList
     {
         private readonly object _lock = new();

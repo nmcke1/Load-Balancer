@@ -16,4 +16,8 @@
 	  <PackageReference Include="NUnit" Version="4.3.2" />
 	</ItemGroup>
 
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+
 </Project>

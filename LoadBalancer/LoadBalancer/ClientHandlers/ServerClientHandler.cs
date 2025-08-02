@@ -4,6 +4,9 @@ using System.Text;
 
 namespace LoadBalancer.ClientHandlers
 {
+    /// <summary>
+    /// Handles clients of the servers
+    /// </summary>
     internal class ServerClientHandler : IServerClientHandler
     {
         public async Task HandleClientAsync(TcpClient client, string response)

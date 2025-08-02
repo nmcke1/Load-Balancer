@@ -4,6 +4,10 @@ using System.Text;
 
 namespace LoadBalancer.ClientHandlers
 {
+    /// <summary>
+    /// Class that handles clients of the loadbalancer.
+    /// Reads the response from the server and returns it to the client
+    /// </summary>
     internal class LoadBalancerClientHandler : ILoadBalancerClientHandler
     {
         public async Task HandleClientAsync(TcpClient client, IServer server)

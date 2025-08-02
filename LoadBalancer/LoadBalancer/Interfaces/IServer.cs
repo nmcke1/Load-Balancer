@@ -2,10 +2,12 @@
 
 namespace LoadBalancer.Interfaces
 {
+    /// <summary>
+    /// Represents a weighted server running on a particular port and IP.
+    /// </summary>
     public interface IServer
     {
         // Properties
-
 
         /// <summary>
         /// The IP address of the server.

@@ -2,6 +2,9 @@
 
 namespace LoadBalancer.Interfaces
 {
+    /// <summary>
+    /// Represents a load balancer that manages a collection of servers
+    /// </summary>
     internal interface ILoadBalancer
     {
         /// <summary>

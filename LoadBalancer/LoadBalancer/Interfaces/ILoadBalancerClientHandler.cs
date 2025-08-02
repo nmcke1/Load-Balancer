@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace LoadBalancer.Interfaces
 {
+    /// <summary>
+    /// Represents a client handler for a load balancer capable of redirecting traffic to the appropriate server
+    /// </summary>
     public interface ILoadBalancerClientHandler
     {
         /// <summary>
@@ -15,6 +18,6 @@ namespace LoadBalancer.Interfaces
         /// <param name="client"></param>
         /// <param name="server"></param>
         /// <returns></returns>
-        public Task HandleClientAsync(System.Net.Sockets.TcpClient client, IServer server);
+        public Task HandleClientAsync(TcpClient client, IServer server);
     }
 }
